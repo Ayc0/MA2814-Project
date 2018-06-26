@@ -42,7 +42,7 @@ class MarkovChain:
 
     def rowOfLetters(self, letters):
         letters = list(self.sanitize(letters))
-        array = letters_array * 0
+        array = np.zeros(self.letters_array.shape)
         for letter in letters:
             array += self.letters_array == letter
         return array / len(letters)
