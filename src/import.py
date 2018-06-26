@@ -73,7 +73,7 @@ with open(source_filename, 'r') as f:
         markov_chain.add(previous_char, SPACE)
         word = f.readline()
 
-markov_chain.build()
+# markov_chain.build()
 
 # Store MC
 pickle.dump([markov_chain.letters, markov_chain.letters_table], open(cache_filename, 'wb'))
