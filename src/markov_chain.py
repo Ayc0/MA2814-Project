@@ -18,6 +18,7 @@ class MarkovChain:
 
     def add(self, prev, new):
         self.letters.add(prev)
+        self.letters.add(new)
         if ((prev, new) in self.markov_chain_dict):
             self.markov_chain_dict[(prev, new)] += 1
         else:
@@ -32,7 +33,7 @@ class MarkovChain:
     def letters_list(self):
         return set_to_list(self.letters)
 
-    def build_array(self):
+    def build(self):
         letters_list = self.letters_list
         table = []
         for letterA in letters_list:
@@ -41,5 +42,7 @@ class MarkovChain:
                 row.append(self.get(letterA, letterB))
             table.append(row)
         self.markov_chain_array = np.array(table)
+        markov_chain_array = self.markov_chain_array / self.markov_chain_array.sum(axis=1)[:,None]
+        self.markov_chain_matrix = np.matrix(markov_chain_array)
 
 

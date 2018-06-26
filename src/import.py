@@ -73,7 +73,7 @@ with open(source_filename, 'r') as f:
         markov_chain.add(previous_char, SPACE)
         word = f.readline()
 
-markov_chain.build_array()
+markov_chain.build()
 
 # Store MC
 with open(cache_filename, 'wb') as f:
