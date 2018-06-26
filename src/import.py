@@ -2,6 +2,7 @@ import os
 import sys
 
 from settings import SPACE
+from markov_chain import MarkovChain
 
 source_dir = os.path.join(os.path.dirname(__file__), 'sources')
 
@@ -17,15 +18,16 @@ if filename not in available_files:
 
 source_filename = os.path.join(source_dir, filename)
 
-# TODO: remplace print by a valid function
-add_letter = print
+markov_chain = MarkovChain()
 
 with open(source_filename, 'r') as f:
     word = f.readline()
     while word:
         previous_char = SPACE
         for char in word.rstrip():
-            add_letter(previous_char, char, end="|")
+            markov_chain.add(previous_char, char)
             previous_char = char
-        add_letter(previous_char, SPACE)
+        markov_chain.add(previous_char, SPACE)
         word = f.readline()
+
+markov_chain.build_array()
