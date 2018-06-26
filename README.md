@@ -12,7 +12,7 @@ Project for MA2814 - Introduction to Random Modeling
 
 # Commands
 
-- `pipenv run load <filename> [-o, --override]` <br>
+- `pipenv run import <filename> [-o, --override]` <br>
   Parse `sources/<filename>.txt` and compute its related markov chain, then stores it in `.cache` folder.<br><br>
   if `<filename>` is already cached, and `override` isn't specified, it just sets this markov chain as the current one
 

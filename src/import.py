@@ -76,8 +76,7 @@ with open(source_filename, 'r') as f:
 markov_chain.build()
 
 # Store MC
-with open(cache_filename, 'wb') as f:
-    pickle.dump(markov_chain, f)
+pickle.dump([markov_chain.letters, markov_chain.letters_table], open(cache_filename, 'wb'))
 
 shutil.copy(cache_filename, cache_current)
 
