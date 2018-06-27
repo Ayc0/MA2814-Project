@@ -68,11 +68,12 @@ nb_char = 1
 with open(source_filename, 'r') as f:
     word = f.readline()
     while word:
+        striped_word = SPACE + word.strip() + SPACE
         previous_char = SPACE
-        for char in word.rstrip():
+        for i in range(0, len(striped_word)):
+            char = striped_word[i : min(i + nb_char, len(striped_word))]
             markov_chain.add(previous_char, char)
             previous_char = char
-        markov_chain.add(previous_char, SPACE)
         word = f.readline()
 
 # markov_chain.build()

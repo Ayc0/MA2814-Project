@@ -6,7 +6,8 @@ mc = load()
 word = []
 
 letter = SPACE
-for i in range(20000):
+for i in range(5000):
     letter = mc.nextLetter(letter)
-    word.append(letter)
+    if letter != SPACE:
+        word.append(letter[0])
 print(''.join(word))
