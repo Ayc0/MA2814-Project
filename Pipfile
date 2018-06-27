@@ -14,3 +14,4 @@ python_version = "3.5"
 
 [scripts]
 import = "python src/import.py"
+display = "python src/display.py"
