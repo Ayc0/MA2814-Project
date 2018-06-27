@@ -5,6 +5,7 @@ Project for MA2814 - Introduction to Random Modeling
 # Requirements
 
 - `pipenv`
+- `pyenv`
 
 # Install
 
