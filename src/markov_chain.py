@@ -10,7 +10,8 @@ def set_to_list(s):
 
 
 class MarkovChain:
-    def __init__(self, letters={ SPACE }, letters_table=dict(), transition_array=None, transition_matrix=None):
+    def __init__(self, nb_char=1, letters={ SPACE }, letters_table=dict(), transition_array=None, transition_matrix=None):
+        self.nb_char = nb_char
         self.letters = letters
         self.letters_table = letters_table
         self.transition_array = transition_array
@@ -45,20 +46,24 @@ class MarkovChain:
         array = np.zeros(self.letters_array.shape)
         for letter in letters:
             array += self.letters_array == letter
-        return array / len(letters)
+        if len(letters):
+            return array / len(letters)
+        return array
 
     def nextProba(self, rowOfLetters, order=1):
         return rowOfLetters * (self.transition_matrix ** order)
 
     def nextLetter(self, letter):
-        rowOfLetters = self.rowOfLetters(letter)
+        rowOfLetters = self.rowOfLetters([letter])
         rowOfLetters = self.nextProba(rowOfLetters)
         rand = random()
         cumulative_sum = 0
-        for (index, letter) in enumerate(self.letters_list):
+        for (index, l) in enumerate(self.letters_list):
             cumulative_sum += rowOfLetters[0, index]
             if cumulative_sum > rand:
-                return letter
+                return l
+        message = '"{}" don\'t have any followers'.format(letter)
+        raise ValueError(message)
 
     def build(self):
         letters_list = self.letters_list
@@ -69,7 +74,7 @@ class MarkovChain:
                 row.append(self.get(letterA, letterB))
             table.append(row)
         self.transition_array = np.array(table)
-        transition_array = self.transition_array / self.transition_array.sum(axis=1)[:,None]
+        transition_array = np.nan_to_num(self.transition_array / self.transition_array.sum(axis=1)[:,None])
         self.transition_matrix = np.matrix(transition_array)
 
 
