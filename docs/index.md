@@ -34,11 +34,17 @@ In order to have a visual representation of what we were doing, we wrote a funct
 
 The graphic represents the probability for any possible character (on the left) to reach any other character (on the bottom). To make the graphic clearer, every row were scaled up to have the highest probability equal to one (simple multiplication on the entire row).
 
-The last column is the real probability to have this letter (for instance, in french, the letter "e" is the one with the highest probability).
+The last column is frequency of letters (the highest frequency is also set to 1).
 
-|       Notre-Dame de Paris       |      French words      |
-| :-----------------------------: | :--------------------: |
 | ![Notre-Dame de Paris][fr_full] | ![French words][words] |
+| :-----------------------------: | :--------------------: |
+|       Notre-Dame de Paris       |      French words      |
+
+We chose to use `"Notre_Dame_de_Paris_full.txt"` instead of `"words.txt"` because it is a real use of the french language and is more realistic that the other one (even if it doesn't match the [theoretical frequency](https://fr.wikipedia.org/wiki/Wikip%C3%A9dia_en_fran%C3%A7ais)).
+
+And if we had a even larger sample, we'll have a better markov chain.
+
+Those graphs are the signature of a language: the markov_chain and the frequency of letters.
 
 ## Score power
 
