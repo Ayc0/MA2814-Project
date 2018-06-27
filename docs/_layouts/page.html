@@ -38,7 +38,7 @@
   </script>
 
   <script type="text/javascript">
-    var elements = document.querySelectorAll('.h2,h3,h4,h5,h6[id]');
+    var elements = document.querySelectorAll('h2[id], h3[id], h4[id], h5[id], h6[id]');
     Array.prototype.forEach.call(elements, function (el) {
       el.innerHTML = '<a href="#' + el.getAttribute('id') + '">' + el.textContent + '</a>';
     });
