@@ -7,8 +7,8 @@ cache_dir = os.path.join(os.path.dirname(__file__), '../.cache')
 cache_filename = os.path.join(cache_dir, "current.pkl")
 
 def load():
-    [nb_char, letters, letters_table] = pickle.load(open(cache_filename, 'rb'))
-    markov_chain = MarkovChain(nb_char, letters, letters_table)
+    [file, nb_char, letters, letters_table] = pickle.load(open(cache_filename, 'rb'))
+    markov_chain = MarkovChain(file, nb_char, letters, letters_table)
     markov_chain.build()
     return markov_chain
 

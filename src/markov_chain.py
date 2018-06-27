@@ -10,7 +10,8 @@ def set_to_list(s):
 
 
 class MarkovChain:
-    def __init__(self, nb_char=1, letters={ SPACE }, letters_table=dict(), transition_array=None, transition_matrix=None):
+    def __init__(self, name, nb_char=1, letters={ SPACE }, letters_table=dict(), transition_array=None, transition_matrix=None):
+        self.name = name
         self.nb_char = nb_char
         self.letters = letters
         self.letters_table = letters_table

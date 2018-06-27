@@ -59,7 +59,7 @@ if not(override) and cache_file_exists:
 
 # Compute MC
 
-markov_chain = MarkovChain()
+markov_chain = MarkovChain(file)
 
 print('Parsing file "{}"...'.format(file))
 
@@ -79,7 +79,7 @@ with open(source_filename, 'r') as f:
 # markov_chain.build()
 
 # Store MC
-pickle.dump([nb_char, markov_chain.letters, markov_chain.letters_table], open(cache_filename, 'wb'))
+pickle.dump([file, nb_char, markov_chain.letters, markov_chain.letters_table], open(cache_filename, 'wb'))
 
 shutil.copy(cache_filename, cache_current)
 
