@@ -13,9 +13,26 @@ To do this, we initially download a text file, then we format it in lowercase, r
 
 Then we parse this text file and we count in a `MarkovChain` class which character follows which other character. At the end of the parsing, this pseudo markov chain has a label, the set of characters included in it and this map of followers.
 
-As the parsing can take some time, we don't want to recompute it each time we run a script. And so we store them in a `.cache` folder.
+As the parsing can take some time, we don't want to recompute it each time we run a script. And so we store them in a `/.cache/` folder.
 
-In addition to the label, the set of characters and the map, if we run the `build` method of a markov chain, we can have its transition matrix (and the map represented with `numpy.array` object). Those two variables are only computed after the build phase because once they're done, you cannot easily add a new character in the markov chain.
+In addition to the label, the set of characters and the map, if we run the `build()` method of a markov chain, we can have its transition matrix (and the map represented with `numpy.array` object). Those two variables are only computed after the build phase because once they're done, you cannot easily add a new character in the markov chain.
+
+### Input file
+
+One question we faced was: which file should we use to train our model? As we couldn't find a right response without any tests, we tried our algorithm on two different files: `"words.txt"` and `"Notre_Dame_de_Paris_full.txt"` (renamed afterwards `"fr_full.txt"`). `"words.txt"` is the list of almost every words in french, and `"Notre_Dame_de_Paris.txt"` is the full text of [Notre-Dame de Paris](https://fr.wikisource.org/wiki/Notre-Dame_de_Paris).
+
+In order to have a visual representation of what we were doing, we wrote a function that uses `matplotlib` to display the transition matrix of markov chains (with the colormap mode).
+
+The graphic represents the probability for any possible character (on the left) to reach any other character (on the bottom). To make the graphic clearer, every row were scaled up to have the highest probability equal to one (simple multiplication on the entire row).
+
+The last column is the real probability to have this letter (for instance, in french, the letter "e" is the one with the highest probability).
+
+[fr]: {{ site.production_url }}/images/Notre_Dame_de_Paris.png "Notre-Dame de Paris"
+[words]: {{ site.production_url }}/images/words.png "French words"
+
+|    Notre-Dame de Paris     |      French words      |
+| :------------------------: | :--------------------: |
+| ![Notre-Dame de Paris][fr] | ![French words][words] |
 
 ## Score power
 
