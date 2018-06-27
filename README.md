@@ -22,4 +22,4 @@ Project for MA2814 - Introduction to Random Modeling
 
 # Bibliography
 
-[Notre-Dame de Paris](https://fr.wikisource.org/wiki/Notre-Dame_de_Paris/)
+[Notre-Dame de Paris](https://fr.wikisource.org/wiki/Notre-Dame_de_Paris)
