@@ -1,6 +1,7 @@
 ---
 title: Random word generator
 tagline: Markov chain based word generator
+includes: images
 ---
 
 ## How to determine the signature markov chain of a language
@@ -27,12 +28,9 @@ The graphic represents the probability for any possible character (on the left) 
 
 The last column is the real probability to have this letter (for instance, in french, the letter "e" is the one with the highest probability).
 
-[fr]: {{ site.production_url }}/images/Notre_Dame_de_Paris.png "Notre-Dame de Paris"
-[words]: {{ site.production_url }}/images/words.png "French words"
-
-|    Notre-Dame de Paris     |      French words      |
-| :------------------------: | :--------------------: |
-| ![Notre-Dame de Paris][fr] | ![French words][words] |
+|       Notre-Dame de Paris       |      French words      |
+| :-----------------------------: | :--------------------: |
+| ![Notre-Dame de Paris][fr_full] | ![French words][words] |
 
 ## Score power
 
