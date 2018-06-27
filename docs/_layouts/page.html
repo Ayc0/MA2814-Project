@@ -10,14 +10,9 @@
 </head>
 
 <body>
-  <a id="skip-to-content" href="#content">Skip to the content.</a>
-
   <header class="page-header" role="banner">
-    <h1 class="project-name">{{ site.title | default: site.github.repository_name }}</h1>
-    <h2 class="project-tagline">{{ site.description | default: site.github.project_tagline }}</h2>
-    {% if site.github.is_project_page %}
-    <a href="{{ site.github.repository_url }}" class="btn">View on GitHub</a>
-    {% endif %}
+    <h1 class="project-name">{{ page.title | site.title | default: site.github.repository_name }}</h1>
+    <h2 class="project-tagline">{{ page.tagline | site.description | default: site.github.project_tagline }}</h2>
   </header>
 
   <main id="content" class="main-content" role="main">
@@ -26,11 +21,13 @@
     <footer class="site-footer">
       {% if site.github.is_project_page %}
       <span class="site-footer-owner">
-        <a href="{{ site.github.repository_url }}">{{ site.github.repository_name }}</a> is maintained by
-        <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a>.</span>
-      {% endif %}
+        See source code on
+        <a href="{{ site.github.repository_url }}">GitHub</a>
+      </span>. {% endif %}
     </footer>
   </main>
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
   <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
       tex2jax: {
@@ -39,7 +36,13 @@
       }
     });
   </script>
-  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+  <script type="text/javascript">
+    var elements = document.querySelectorAll('.h2,h3,h4,h5,h6[id]');
+    Array.prototype.forEach.call(elements, function (el) {
+      el.innerHTML = '<a href="#' + el.getAttribute('id') + '">' + el.textContent + '</a>';
+    });
+  </script>
 </body>
 
 </html>
