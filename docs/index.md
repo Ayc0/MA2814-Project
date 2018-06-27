@@ -3,6 +3,20 @@ title: Random word generator
 tagline: Markov chain based word generator
 ---
 
+## How to determine the signature markov chain of a language
+
+### Initializing
+
+The first approach was to create a markov chain that represents the chance to pass from one possible character to another one.
+
+To do this, we initially download a text file, then we format it in lowercase, remove every punctuation, every numbers, etc. (all those files are in `/sources/`) (to remove every punctuation, etc. we wrote a JavaScript script `/format.js` that uses the package [sluggr](https://www.npmjs.com/package/sluggr)).
+
+Then we parse this text file and we count in a `MarkovChain` class which character follows which other character. At the end of the parsing, this pseudo markov chain has a label, the set of characters included in it and this map of followers.
+
+As the parsing can take some time, we don't want to recompute it each time we run a script. And so we store them in a `.cache` folder.
+
+In addition to the label, the set of characters and the map, if we run the `build` method of a markov chain, we can have its transition matrix (and the map represented with `numpy.array` object). Those two variables are only computed after the build phase because once they're done, you cannot easily add a new character in the markov chain.
+
 ## Score power
 
 $ f(x) = x^n \Rightarrow f'(x) = n . x^{n-1} $
