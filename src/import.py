@@ -3,18 +3,11 @@ import sys
 import pickle
 import shutil
 
-from settings import SPACE
+from settings import SPACE, stop
 from markov_chain import MarkovChain
 
 source_dir = os.path.join(os.path.dirname(__file__), '../sources')
 cache_dir = os.path.join(os.path.dirname(__file__), '../.cache')
-
-def stop(message, error=True):
-    if error:
-        print('Error:', end=" ")
-        sys.exit(1)
-    print(message)
-    sys.exit(0)
 
 # Setup input
 
