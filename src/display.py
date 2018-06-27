@@ -10,6 +10,9 @@ from load import load
 
 images_dir = os.path.join(os.path.dirname(__file__), '../docs/images')
 
+def to_array_string(array):
+    return np.array(np.floor(array * 100)/100, dtype=str)
+
 if __name__ == "__main__":
     # execute only if run as a script
     markov_chain = load()
@@ -17,8 +20,11 @@ if __name__ == "__main__":
     filename = '{}.png'.format(markov_chain.name)
     filepath = os.path.join(images_dir, filename)
 
-    matrix = np.nan_to_num(markov_chain.transition_matrix / np.amax(markov_chain.transition_matrix, axis=1))
+    max_per_row = np.amax(markov_chain.transition_array, axis=1)[:,None]
+    matrix = np.hstack((np.nan_to_num(markov_chain.transition_array / max_per_row), (max_per_row / np.max(max_per_row))))
+    
     plt.imshow(matrix, cmap="viridis")
+    plt.colorbar()
 
     # Display letters in ticks
     plt.xticks(np.arange(len(markov_chain.letters_list)), markov_chain.letters_list)
