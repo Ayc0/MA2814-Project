@@ -1,3 +1,5 @@
+import sys
+
 SPACE = ' '
 
 def stop(message, error=True):
