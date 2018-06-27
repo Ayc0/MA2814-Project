@@ -21,7 +21,9 @@ if __name__ == "__main__":
     filepath = os.path.join(images_dir, filename)
 
     max_per_row = np.amax(markov_chain.transition_array, axis=1)[:,None]
-    matrix = np.hstack((np.nan_to_num(markov_chain.transition_array / max_per_row), (max_per_row / np.max(max_per_row))))
+    sum_per_row = np.sum(markov_chain.transition_array, axis=1)[:,None]
+    sum_per_row[0,0] = 0 # hide spaces
+    matrix = np.hstack((np.nan_to_num(markov_chain.transition_array / max_per_row), (sum_per_row / np.max(sum_per_row))))
     
     plt.imshow(matrix, cmap="viridis")
     plt.colorbar()
