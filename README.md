@@ -22,4 +22,6 @@ Project for MA2814 - Introduction to Random Modeling
 
 # Bibliography
 
-[Notre-Dame de Paris](https://fr.wikisource.org/wiki/Notre-Dame_de_Paris)
+- [Notre-Dame de Paris](https://fr.wikisource.org/wiki/Notre-Dame_de_Paris) (full)
+- [The Hunchback of Notre-Dame](https://en.wikisource.org/wiki/The_Hunchback_of_Notre_Dame) (full)
+- [Un capriccio del dottor Ox](https://it.wikisource.org/wiki/Un_capriccio_del_dottor_Ox) (only 3 first chapters)
