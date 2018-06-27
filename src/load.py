@@ -13,10 +13,11 @@ def filename(file):
         stop('Cached "{}" doesn\'t exists, you should import it before')
     return cache_filename
 
-def load(file="current"):
+def load(file="current", build=True):
     [file, nb_char, letters, letters_table] = pickle.load(open(filename(file), 'rb'))
     markov_chain = MarkovChain(file, nb_char, letters, letters_table)
-    markov_chain.build()
+    if build:
+        markov_chain.build()
     return markov_chain
 
 if __name__ == "__main__":
