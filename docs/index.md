@@ -12,17 +12,17 @@ permalink: /
 
 The first approach was to create a markov chain that represents the chances to pass from one possible character to another.
 
-To do this, we initially download a text file, we format it in lowercase, remove every punctuation, every numbers, etc. (all those files are in `/sources/`) (to remove every punctuation, etc. we wrote a JavaScript script `/format.js` that uses the package [sluggr](https://www.npmjs.com/package/sluggr)).
+To do this, we initially download a text file, we format it in lowercase, remove every punctuation, every number, etc. (all those files are in `/sources/`) (to remove every punctuation, etc. we wrote a JavaScript script `/format.js` that uses the package [sluggr](https://www.npmjs.com/package/sluggr)).
 
 Then we parse this text file and we count which character follows which character in a `MarkovChain` class. At the end of the parsing, the computed pseudo markov chain has a label, a set of characters included in it and the map of followers.
 
-As the parsing can take some time, we don't want to recompute it each time we run the script so we store the results in a `/.cache/` folder.
+As the parsing can take some time, we don't want to recompute it each time we run a script so we store the results in a `/.cache/` folder.
 
 In addition to the label, the set of characters and the map, running the `build()` method of a markov chain returns its transition matrix (and the map represented with `numpy.array` object). Those two variables are only computed after the build phase because once they're done, you cannot easily add a new character in the markov chain.
 
 ### Input file
 
-One question we faced was: which file should we use to train our model? As we couldn't find an answer without running any test, we tried our algorithm on two different files: `"words.txt"` and `"Notre_Dame_de_Paris_full.txt"` (renamed afterwards `"fr_full.txt"`). `"words.txt"` is the list of almost every words in french, and `"Notre_Dame_de_Paris.txt"` is the full text of [Notre-Dame de Paris](https://fr.wikisource.org/wiki/Notre-Dame_de_Paris).
+One question we faced was: which file should we use to train our model? As we couldn't find an answer without running any test, we tried our algorithm on two different files: `"words.txt"` and `"Notre_Dame_de_Paris_full.txt"` (renamed afterwards `"fr_full.txt"`). `"words.txt"` is the list of almost every word in french, and `"Notre_Dame_de_Paris.txt"` is the full text of [Notre-Dame de Paris](https://fr.wikisource.org/wiki/Notre-Dame_de_Paris).
 
 In order to have a visual representation of what we were doing, we wrote a function that uses `matplotlib` to display the transition matrix of markov chains (with the colormap mode).
 
@@ -64,9 +64,9 @@ The `norm` function should be best determined in order to have the best results.
 
 ### Determination of the norm
 
-We chose a norm with the shape: $x \rightarrow x^y, y > 0$. If `y = 1`, every differences in coefficients are as meaningful as any others. If `y > 1`, the differences will be flatten, specially around 0. On the opposite, if `y < 1`, there will be exacerbated.
+We chose a norm with the shape: $x \rightarrow x^y, y > 0$. If `y = 1`, every difference in coefficients are as meaningful as any others. If `y > 1`, the differences will be flatten, specially around 0. On the opposite, if `y < 1`, there will be exacerbated.
 
-As it is pretty common to have a few errors, as long as they're not too big, it's acceptable (having 0.6 instead of 0.5 is okay). But we want to prevent huge gaps (we don't want a 0.9 instead of a 0.2).
+As it is pretty common to have a few errors, as long as they're under a certain limit, it's acceptable (having 0.6 instead of 0.5 is okay). But we want to prevent huge gaps (we don't want a 0.9 instead of a 0.2).
 
 In order to have the right norm function, we have to determine this limit.
 
@@ -149,11 +149,11 @@ But this method has a strong limitation: there is no memory of past letters. For
 
 ### Bigger chunks
 
-One way have some kind of memory **and** still have a word generator using markov chain is to create a map of chunks (go from "ag" to "gl")instead of creating a map of letters (go from letter "a" to letter "b"). The only condition is that every chunks should form a sort of chain: the chunk "xy" can only be followed "yz" (or "wxy" by "xyz", etc.). But this has a huge drawback: the size of the transition matrix. For a transition matrix of 3 letters chunks, the matrix has a size of (3581x3581). And the more letters you have in a chunk, the bigger the matrix is.
+One way have some kind of memory **and** still have a word generator using markov chain is to create a map of chunks (go from "ag" to "gl")instead of creating a map of letters (go from letter "a" to letter "b"). The only condition is that every chunk should form a sort of chain: the chunk "xy" can only be followed "yz" (or "wxy" by "xyz", etc.). But this has a huge drawback: the size of the transition matrix. For a transition matrix of 3 letters chunks, the matrix has a size of (3581x3581). And the more letters you have in a chunk, the bigger the matrix is.
 
 But the improvement is noticeable: for the [2 letters chunks]({{base_url}}results.html#chunks-of-2-letters) and for the [3 letters chunks]({{base_url}}results.html#chunks-of-3-letters), the more letters you have in a chunk, the "frenchier" the words are.
 
-And the following table represents the score of each languages according to the previous method of computing scores.
+And the following table represents the score of each language according to the previous method of computing scores.
 
 | lang | 1 letter | 2 letters | 3 letters |
 | :--- | :------: | :-------: | :-------: |
