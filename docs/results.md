@@ -1,6 +1,7 @@
 ---
 id: results
 title: Results
+permalink: results.html
 ---
 
 ## French real text without accents

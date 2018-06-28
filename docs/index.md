@@ -1,6 +1,7 @@
 ---
 title: Random word generator
 tagline: Markov chain based word generator
+permalink: /
 ---
 
 {% include images.md %}

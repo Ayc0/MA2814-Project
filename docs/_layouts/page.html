@@ -12,7 +12,11 @@
 <body>
   <header class="page-header" role="banner">
     <h1 class="project-name">{{ page.title | site.title | default: site.github.repository_name }}</h1>
-    <h2 class="project-tagline">{{ page.tagline | site.description | default: site.github.project_tagline }}</h2>
+    {% if page.tagline %}
+    <h2 class="project-tagline">{{ page.tagline }}</h2>
+    {% endif %} {% if page.url != "/" %}
+    <a href="/" class="btn">Go back to main page</a>
+    {% endif %}
   </header>
 
   <main id="content" class="main-content" role="main">
