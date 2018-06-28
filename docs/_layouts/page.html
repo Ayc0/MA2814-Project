@@ -11,11 +11,11 @@
 
 <body>
   <header class="page-header" role="banner">
-    <h1 class="project-name">{{ page.title | site.title | default: site.github.repository_name }}</h1>
+    <h1 class="project-name">{{ page.title | default: site.title | default: site.github.repository_name }}</h1>
     {% if page.tagline %}
     <h2 class="project-tagline">{{ page.tagline }}</h2>
-    {% endif %} {% if page.url != "/" %}
-    <a href="/" class="btn">Go back to main page</a>
+    {% endif %} {% assign base_url = "/" | append: site.github.repository_name | append: "/" %} {% if page.url != "/" %}
+    <a href="{{ base_url }}" class="btn">Go back to main page</a>
     {% endif %}
   </header>
 
@@ -31,7 +31,7 @@
     </footer>
   </main>
 
-  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
   <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
       tex2jax: {
