@@ -46,22 +46,58 @@ And if we had a even larger sample, we'll have a better markov chain.
 
 Those graphs are the signature of a language: the markov_chain and the frequency of letters.
 
-## Score power
+## Determine the language of a given text
 
-$ f(x) = x^n \Rightarrow f'(x) = n . x^{n-1} $
+| ![Notre-Dame de Paris][fr_full] | ![Notre-Dame de Paris english][en_full] | ![Un capriccio del dottor Ox][it_full] |
+| :-----------------------------: | :-------------------------------------: | :------------------------------------: |
+|       Notre-Dame de Paris       |     Notre-Dame de Paris in english      |       Un capriccio del dottor Ox       |
 
-$ f'(x) = 1 \Leftrightarrow x = \sqrt[n-1]{\dfrac{1}{n}} $
+The same method as previously was done on two other texts: [the english translation of Notre-Dame de Paris](https://en.wikisource.org/wiki/The_Hunchback_of_Notre_Dame) and [Un capriccio del dottor Ox](https://it.wikisource.org/wiki/Un_capriccio_del_dottor_Ox). And we've also took a paragraph written in one of those three languages and computed it's markov chain:
 
-| n    | x    |
+| ![Guadeloupe][guadeloupe] |
+| :-----------------------: |
+|     Unknown language      |
+
+One way to determine the original language is to attribute a score to each language and to select the language with the lowest score.
+
+<!-- prettier-ignore-start -->
+In order to compute this score, we use this formula: $\sum_i\sum_j norm(| U_{ij} - L_{k,ij} |)$ (with $L_k$ the k-language (fr/it/en/etc.) and $U$ the unknown paragraph).
+<!-- prettier-ignore-end -->
+
+The `norm` function should be best determined in order to have the best results.
+
+### Determination of the norm
+
+We chose a norm with the shape: $x \rightarrow x^y, y > 0$. If `y = 1`, every differences in coefficient are as meaningful as any others. If `y > 1`, the differences will be flatten, specially around 0. On the opposite, if `y < 1`, there will be exacerbated.
+
+As it is pretty common to have a few errors, as long as they're under a certain limit, it's acceptable (having 0.6 instead of 0.5 is okay). But we want to prevent huge gaps (we don't want a 0.9 instead of a 0.2).
+
+In order to have the right norm function, we have to determine this limit.
+
+### Cutoff limit
+
+First, with $norm = x \rightarrow x^y, y > 0$, the "cutoff" value is when the function starts to raise pretty quickly, which is when the value of its derivative is 1.
+
+$ norm(x) = x^y \Rightarrow norm'(x) = y . x^{y-1} $
+
+$ norm'(x) = 1 \Leftrightarrow x = \sqrt[y-1]{\dfrac{1}{y}} $
+
+With geogebra, we plot the function $y \rightarrow \sqrt[y-1]{\dfrac{1}{y}}$ and we looked at its intersections with the function $x = k$, for various value of k (interesting cutoff values).
+
+This is what we got:
+
+| x    | y    |
 | ---- | ---- |
-| 0.81 | 0.33 |
-| 1.19 | 0.4  |
-| 2    | 0.5  |
-| 3.39 | 0.6  |
-| 4.94 | 0.66 |
-| 8.4  | 0.75 |
+| 0.33 | 0.81 |
+| 0.4  | 1.19 |
+| 0.5  | 2    |
+| 0.6  | 3.39 |
+| 0.66 | 4.94 |
+| 0.75 | 8.4  |
 
-### n = 0.81, x = 0.33
+Then we compared those cutoff values with the data we had to see which one was the best:
+
+#### n = 0.81, x = 0.33
 
 | lang |  score   | percentage |
 | :--- | :------: | ---------: |
@@ -69,7 +105,7 @@ $ f'(x) = 1 \Leftrightarrow x = \sqrt[n-1]{\dfrac{1}{n}} $
 | en   | 5.888e-2 |        26% |
 | it   | 5.491e-2 |        18% |
 
-### n = 1.19, x = 0.4
+#### n = 1.19, x = 0.4
 
 | lang |  score   | percentage |
 | :--- | :------: | ---------: |
@@ -77,7 +113,7 @@ $ f'(x) = 1 \Leftrightarrow x = \sqrt[n-1]{\dfrac{1}{n}} $
 | en   | 2.714e-2 |        34% |
 | it   | 2.686e-2 |        32% |
 
-### n = 2, x = 0.5
+#### n = 2, x = 0.5
 
 | lang |  score   | percentage |
 | :--- | :------: | ---------: |
@@ -85,7 +121,7 @@ $ f'(x) = 1 \Leftrightarrow x = \sqrt[n-1]{\dfrac{1}{n}} $
 | en   | 7.987e-3 |        48% |
 | it   | 8.563e-3 |        59% |
 
-### n = 4.94, x = 0.666
+#### n = 4.94, x = 0.666
 
 | lang |  score   | percentage |
 | :--- | :------: | ---------: |
@@ -93,7 +129,7 @@ $ f'(x) = 1 \Leftrightarrow x = \sqrt[n-1]{\dfrac{1}{n}} $
 | en   | 5.390e-4 |        70% |
 | it   | 8.479e-4 |       167% |
 
-### n = 8.4, x = 75
+#### n = 8.4, x = 75
 
 | lang |  score   | percentage |
 | :--- | :------: | ---------: |
@@ -103,4 +139,6 @@ $ f'(x) = 1 \Leftrightarrow x = \sqrt[n-1]{\dfrac{1}{n}} $
 
 ### Conclusion
 
-`n=4.94` is chosen because gap of `66%`
+`(n, x) = (4.94, 0.666)` is chosen because its maximized at the same time the percentage of differences with en and it.
+
+Having a rather large cutoff value can be explained because we are only interested in the location of the biggest percentages in the markov chains: knowing that the sequence "xw" is rare in a language and that it is also rare in another language has less value than it is rare in one but important in another one. Same thing is "xw" is really common in one language and common in another one.
