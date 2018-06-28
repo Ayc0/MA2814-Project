@@ -155,11 +155,11 @@ But the improvement is noticeable: for the [2 letters chunks]({{base_url}}result
 
 And the following table represents the score of each language according to the previous method of computing scores.
 
-| lang | 2 letters |  score   | percentage | 3 letters |  score   | percentage |
-| :--- | :-------: | :------: | ---------: | :-------: | :------: | ---------: |
-| fr   |           | 3.483e-6 |         0% |           | 1.809e-6 |         0% |
-| en   |           | 8.793e-4 |     25140% |           | 7.766e-4 |     42824% |
-| it   |           | 9.002e-4 |     25741% |           | 8.490e-4 |     46821% |
+| lang | 1 letter | 2 letters | 3 letters |
+| :--- | :------: | :-------: | :-------: |
+| fr   | 1.471e-6 | 3.483e-6  | 1.809e-6  |
+| en   | 8.414e-4 | 8.793e-4  | 7.766e-4  |
+| it   | 6.572e-4 | 9.002e-4  | 8.490e-4  |
 
 According to the scores, the way the word generator works still produces "french" texts even with chunks of 2-3 letters.
 
