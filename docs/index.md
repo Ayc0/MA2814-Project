@@ -55,8 +55,10 @@ The same method as previously was done on two other texts: [the english translat
 One way to determine the original language is to attribute a score to each language and to select the language with the lowest score.
 
 <!-- prettier-ignore-start -->
-In order to compute this score, we use this formula: $\sum_i\sum_j norm(| U_{ij} - L_{k,ij} |)$ (with $L_k$ the k-language (fr/it/en/etc.) and $U$ the unknown paragraph).
+In order to compute this score, we use this formula: $\dfrac{\sum_i\sum_j norm(| U_{ij} - L_{k,ij} |)}{n^2}$ (with $L_k$ the k-language (fr/it/en/etc.) and $U$ the unknown paragraph and $n$ the size of the matrix).
 <!-- prettier-ignore-end -->
+
+The score is divided by `n²` to make it independent to the size of the matrix and if there're more letters, the score won't be affected and so we can compare (with the same score function) every transition matrix.
 
 The `norm` function should be best determined in order to have the best results.
 
