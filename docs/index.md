@@ -48,9 +48,9 @@ Those graphs are the signature of a language: the markov_chain and the frequency
 
 ## Determine the language of a given text
 
-| ![Notre-Dame de Paris][fr_full] | ![Notre-Dame de Paris english][en_full] | ![Un capriccio del dottor Ox][it_full] |
-| :-----------------------------: | :-------------------------------------: | :------------------------------------: |
-|       Notre-Dame de Paris       |     Notre-Dame de Paris in english      |       Un capriccio del dottor Ox       |
+| ![Notre-Dame de Paris][fr_full] | ![Notre-Dame de Paris english][en] | ![Un capriccio del dottor Ox][it_full] |
+| :-----------------------------: | :--------------------------------: | :------------------------------------: |
+|       Notre-Dame de Paris       |   Notre-Dame de Paris in english   |       Un capriccio del dottor Ox       |
 
 The same method as previously was done on two other texts: [the english translation of Notre-Dame de Paris](https://en.wikisource.org/wiki/The_Hunchback_of_Notre_Dame) and [Un capriccio del dottor Ox](https://it.wikisource.org/wiki/Un_capriccio_del_dottor_Ox). And we've also took a paragraph written in one of those three languages and computed it's markov chain:
 
@@ -139,6 +139,6 @@ Then we compared those cutoff values with the data we had to see which one was t
 
 ### Conclusion
 
-`(n, x) = (4.94, 0.666)` is chosen because its maximized at the same time the percentage of differences with en and it.
+`(n, x) := (4.94, 0.666)` is chosen because its maximized at the same time the percentage of differences with en and it.
 
 Having a rather large cutoff value can be explained because we are only interested in the location of the biggest percentages in the markov chains: knowing that the sequence "xw" is rare in a language and that it is also rare in another language has less value than it is rare in one but important in another one. Same thing is "xw" is really common in one language and common in another one.
