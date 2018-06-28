@@ -170,3 +170,18 @@ As the chunks of 2 letters produces a fairly good generator and as it's less gre
 ## How to generate words with specific length
 
 WIP
+
+## Conclusion
+
+What we succeeded to do:
+
+- A way to parse text and generate a signature,
+- A way to compare signatures to determine the language of a text,
+- A way to generate texts using this signature.
+
+What we can improve:
+
+- Bigger input sample,
+- Train model and verify it on 2 different data sets,
+- Verify scores on multiple texts of various lengths,
+- Find a better way to create a score (the 1-letter chunk produces the same score as 3-letters chunk even if the 3-letters chunks' generated text feels much more french)
