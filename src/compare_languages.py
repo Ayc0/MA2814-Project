@@ -5,7 +5,7 @@ from settings import SPACE
 from markov_chain import MarkovChain
 
 languages = ["fr", "en", "it"]
-mystery_file = "guadeloupe"
+mystery_file = "current"
 
 # Load markov chains without building them
 unknown_markov_chain = load(mystery_file, False)
