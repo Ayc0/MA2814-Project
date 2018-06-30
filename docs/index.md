@@ -78,11 +78,11 @@ $ norm(x) = x^y \Rightarrow norm'(x) = y . x^{y-1} $
 
 $ norm'(x) = 1 \Leftrightarrow x = \sqrt[y-1]{\dfrac{1}{y}} $
 
-With geogebra, we plot the function $y \rightarrow \sqrt[y-1]{\dfrac{1}{y}}$ and we looked at its intersections with the function $x = k$, for various value of k (interesting cutoff values).
+With geogebra, we plot the function $y \rightarrow \sqrt[y-1]{\dfrac{1}{y}}$ and we looked at its intersections with the function $y = k$, for various value of k (interesting cutoff values).
 
 This is what we got:
 
-| x    | y    |
+| k    | y    |
 | ---- | ---- |
 | 0.33 | 0.81 |
 | 0.4  | 1.19 |
@@ -93,7 +93,7 @@ This is what we got:
 
 Then we compared those cutoff values with the data we had to see which one was the best:
 
-#### n = 0.81, x = 0.33
+#### n = 0.81, k = 0.33
 
 | lang |  score   | percentage |
 | :--- | :------: | ---------: |
@@ -101,7 +101,7 @@ Then we compared those cutoff values with the data we had to see which one was t
 | en   | 5.888e-2 |        26% |
 | it   | 5.491e-2 |        18% |
 
-#### n = 1.19, x = 0.4
+#### n = 1.19, k = 0.4
 
 | lang |  score   | percentage |
 | :--- | :------: | ---------: |
@@ -109,7 +109,7 @@ Then we compared those cutoff values with the data we had to see which one was t
 | en   | 2.714e-2 |        34% |
 | it   | 2.686e-2 |        32% |
 
-#### n = 2, x = 0.5
+#### n = 2, k = 0.5
 
 | lang |  score   | percentage |
 | :--- | :------: | ---------: |
@@ -117,7 +117,7 @@ Then we compared those cutoff values with the data we had to see which one was t
 | en   | 7.987e-3 |        48% |
 | it   | 8.563e-3 |        59% |
 
-#### n = 4.94, x = 0.666
+#### n = 4.94, k = 0.666
 
 | lang |  score   | percentage |
 | :--- | :------: | ---------: |
@@ -125,7 +125,7 @@ Then we compared those cutoff values with the data we had to see which one was t
 | en   | 5.390e-4 |        70% |
 | it   | 8.479e-4 |       167% |
 
-#### n = 8.4, x = 75
+#### n = 8.4, k = 0.75
 
 | lang |  score   | percentage |
 | :--- | :------: | ---------: |
