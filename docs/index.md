@@ -10,23 +10,23 @@ permalink: /
 
 ### Initializing
 
-The first approach was to create a markov chain that represents the chance to pass from one possible character to another one.
+The first approach was to create a markov chain that represents the chances to pass from one possible character to another.
 
-To do this, we initially download a text file, then we format it in lowercase, remove every punctuation, every numbers, etc. (all those files are in `/sources/`) (to remove every punctuation, etc. we wrote a JavaScript script `/format.js` that uses the package [sluggr](https://www.npmjs.com/package/sluggr)).
+To do this, we initially download a text file, we format it in lowercase, remove every punctuation, every number, etc. (all those files are in `/sources/`) (to remove every punctuation, etc. we wrote a JavaScript script `/format.js` that uses the package [sluggr](https://www.npmjs.com/package/sluggr)).
 
-Then we parse this text file and we count in a `MarkovChain` class which character follows which other character. At the end of the parsing, this pseudo markov chain has a label, the set of characters included in it and this map of followers.
+Then we parse this text file and we count which character follows which character in a `MarkovChain` class. At the end of the parsing, the computed pseudo markov chain has a label, a set of characters included in it and the map of followers.
 
-As the parsing can take some time, we don't want to recompute it each time we run a script. And so we store them in a `/.cache/` folder.
+As the parsing can take some time, we don't want to recompute it each time we run a script so we store the results in a `/.cache/` folder.
 
-In addition to the label, the set of characters and the map, if we run the `build()` method of a markov chain, we can have its transition matrix (and the map represented with `numpy.array` object). Those two variables are only computed after the build phase because once they're done, you cannot easily add a new character in the markov chain.
+In addition to the label, the set of characters and the map, running the `build()` method of a markov chain returns its transition matrix (and the map represented with `numpy.array` object). Those two variables are only computed after the build phase because once they're done, you cannot easily add a new character in the markov chain.
 
 ### Input file
 
-One question we faced was: which file should we use to train our model? As we couldn't find a right response without any tests, we tried our algorithm on two different files: `"words.txt"` and `"Notre_Dame_de_Paris_full.txt"` (renamed afterwards `"fr_full.txt"`). `"words.txt"` is the list of almost every words in french, and `"Notre_Dame_de_Paris.txt"` is the full text of [Notre-Dame de Paris](https://fr.wikisource.org/wiki/Notre-Dame_de_Paris).
+One question we faced was: which file should we use to train our model? As we couldn't find an answer without running any test, we tried our algorithm on two different files: `"words.txt"` and `"Notre_Dame_de_Paris_full.txt"` (renamed afterwards `"fr_full.txt"`). `"words.txt"` is the list of almost every word in french, and `"Notre_Dame_de_Paris.txt"` is the full text of [Notre-Dame de Paris](https://fr.wikisource.org/wiki/Notre-Dame_de_Paris).
 
 In order to have a visual representation of what we were doing, we wrote a function that uses `matplotlib` to display the transition matrix of markov chains (with the colormap mode).
 
-The graphic represents the probability for any possible character (on the left) to reach any other character (on the bottom). To make the graphic clearer, every row were scaled up to have the highest probability equal to one (simple multiplication on the entire row).
+The graphic represents the probability for any possible character (on the left) to be followed by any other character (on the bottom). To make the graphic clearer, each row was scaled up to have the highest probability equal to one (simple multiplication on the entire row).
 
 The last column is frequency of letters (the highest frequency is also set to 1).
 
@@ -36,7 +36,7 @@ The last column is frequency of letters (the highest frequency is also set to 1)
 
 We chose to use `"Notre_Dame_de_Paris_full.txt"` instead of `"words.txt"` because it is a real use of the french language and is more realistic that the other one (even if it doesn't match the [theoretical frequency](https://fr.wikipedia.org/wiki/Wikip%C3%A9dia_en_fran%C3%A7ais)).
 
-And if we had a even larger sample, we'll have a better markov chain.
+And if we had an even larger sample, we would have a better markov chain.
 
 Those graphs are the signature of a language: the markov_chain and the frequency of letters.
 
@@ -46,25 +46,25 @@ Those graphs are the signature of a language: the markov_chain and the frequency
 | :-----------------------------: | :--------------------------------: | :------------------------------------: |
 |       Notre-Dame de Paris       |   Notre-Dame de Paris in english   |       Un capriccio del dottor Ox       |
 
-The same method as previously was done on two other texts: [the english translation of Notre-Dame de Paris](https://en.wikisource.org/wiki/The_Hunchback_of_Notre_Dame) and [Un capriccio del dottor Ox](https://it.wikisource.org/wiki/Un_capriccio_del_dottor_Ox). And we've also took a paragraph written in one of those three languages and computed it's markov chain:
+The same method as previously have been applied on two other texts: [the english translation of Notre-Dame de Paris](https://en.wikisource.org/wiki/The_Hunchback_of_Notre_Dame) and [Un capriccio del dottor Ox](https://it.wikisource.org/wiki/Un_capriccio_del_dottor_Ox). And we've also taken a paragraph written in one of those three languages and computed it's markov chain:
 
 | ![Guadeloupe][guadeloupe] |
 | :-----------------------: |
 |     Unknown language      |
 
-One way to determine the original language is to attribute a score to each language and to select the language with the lowest score.
+One way to determine the original language is to give a score to each language and then select the language with the lowest score.
 
 <!-- prettier-ignore-start -->
 In order to compute this score, we use this formula: $\dfrac{\sum_i\sum_j norm(| U_{ij} - L_{k,ij} |)}{n^2}$ (with $L_k$ the k-language (fr/it/en/etc.) and $U$ the unknown paragraph and $n$ the size of the matrix).
 <!-- prettier-ignore-end -->
 
-The score is divided by `n²` to make it independent to the size of the matrix and if there're more letters, the score won't be affected and so we can compare (with the same score function) every transition matrix.
+The score is divided by `n²` to make it independent of the size of the matrix so we can compare with the same score function every transition matrices.
 
 The `norm` function should be best determined in order to have the best results.
 
 ### Determination of the norm
 
-We chose a norm with the shape: $x \rightarrow x^y, y > 0$. If `y = 1`, every differences in coefficient are as meaningful as any others. If `y > 1`, the differences will be flatten, specially around 0. On the opposite, if `y < 1`, there will be exacerbated.
+We chose a norm with the shape: $x \rightarrow x^y, y > 0$. If `y = 1`, every difference in coefficients are as meaningful as any others. If `y > 1`, the differences will be flatten, specially around 0. On the opposite, if `y < 1`, there will be exacerbated.
 
 As it is pretty common to have a few errors, as long as they're under a certain limit, it's acceptable (having 0.6 instead of 0.5 is okay). But we want to prevent huge gaps (we don't want a 0.9 instead of a 0.2).
 
@@ -78,7 +78,7 @@ $ norm(x) = x^y \Rightarrow norm'(x) = y . x^{y-1} $
 
 $ norm'(x) = 1 \Leftrightarrow x = \sqrt[y-1]{\dfrac{1}{y}} $
 
-With geogebra, we plot the function $y \rightarrow \sqrt[y-1]{\dfrac{1}{y}}$ and we looked at its intersections with the function $y = k$, for various value of k (interesting cutoff values).
+With geogebra, we plot the function $y \rightarrow \sqrt[y-1]{\dfrac{1}{y}}$ and we looked at its intersections with the function $y = k$, for various values of k (interesting cutoff values).
 
 This is what we got:
 
@@ -91,7 +91,7 @@ This is what we got:
 | 0.66 | 4.94 |
 | 0.75 | 8.4  |
 
-Then we compared those cutoff values with the data we had to see which one was the best:
+Then we compared those cutoff values with the data we had to see which one is the best:
 
 #### n = 0.81, k = 0.33
 
@@ -135,23 +135,23 @@ Then we compared those cutoff values with the data we had to see which one was t
 
 ### Conclusion
 
-`(n, x) := (4.94, 0.666)` is chosen because its maximized at the same time the percentage of differences with en and it.
+`(n, x) := (4.94, 0.666)` is chosen because it maximizes at the same time the percentage of differences with en and it.
 
-Having a rather large cutoff value can be explained because we are only interested in the location of the biggest percentages in the markov chains: knowing that the sequence "xw" is rare in a language and that it is also rare in another language has less value than it is rare in one but important in another one. Same thing is "xw" is really common in one language and common in another one.
+Having a rather large cutoff value can be explained because we are only interested in the location of the biggest percentages in the markov chains: knowing that the sequence "xw" is rare in a language and that it is also rare in another language has less value than it is rare in one but important in another one.
 
 ## How to generate words
 
 ### First algorithm
 
-We initially did a naive algorithm: you start with the whitespace, then you take the row associated to this character in the transition matrix and you have discrete distribution of followers, and you take one random letter according to this distribution. And you start again but from this letter. An example of a text generated by this algorithm can be find [here]({{base_url}}results.html#chunks-of-1-letter).
+We initially did a naive algorithm: you start with the whitespace, then you take the row associated to this character in the transition matrix and you have discrete distribution of followers, and you take one random letter according to this distribution. And you start again from this letter. An example of a text generated by this algorithm can be find [here]({{base_url}}results.html#chunks-of-1-letter).
 
-But this method has a strong limitation: there is no memory of past letters. For instance, in french you often have two "m"s in a row but **never** three "m"s. But if you apply this algorithm and if you are on a "m", there is a high probability to continue on another "m" and so on (in the example, you can find a similar issue with the letter "l").
+But this method has a strong limitation: there is no memory of past letters. For instance, in french you often have two "m"s in a row but **never** three "m"s. But if you apply this algorithm there is a high probability when you reach a "m" to continue on another "m" and so on (in the example, you can find a similar issue with the letter "l").
 
 ### Bigger chunks
 
-One way to keep a sort of memory **and** keep a word generator using markov chain is instead of creating a map of letters (go from letter A to letter B), a map of chunk can be created: go from "ag" to "gl". The only condition is that every chunks should form a sort of chain: the chunk "xy" can only go to "yz" (or "wxy" to "xyz", etc.). But this has a huge drawback: the size of the transition matrix. For a transition matrix of 3 letters chunks, the matrix has a size of (3581x3581). And the more letters you have in a chunk, the biggest the matrix is.
+One way have some kind of memory **and** still have a word generator using markov chain is to create a map of chunks (go from "ag" to "gl")instead of creating a map of letters (go from letter "a" to letter "b"). The only condition is that every chunk should form a sort of chain: the chunk "xy" can only be followed "yz" (or "wxy" by "xyz", etc.). But this has a huge drawback: the size of the transition matrix. For a transition matrix of 3 letters chunks, the matrix has a size of (3581x3581). And the more letters you have in a chunk, the bigger the matrix is.
 
-But the improvement is noticeable: for the [2 letters chunks]({{base_url}}results.html#chunks-of-2-letters) and for the [3 letters chunks]({{base_url}}results.html#chunks-of-3-letters), the more letters you have in a chunk, the "frenchest" the words are.
+But the improvement is noticeable: for the [2 letters chunks]({{base_url}}results.html#chunks-of-2-letters) and for the [3 letters chunks]({{base_url}}results.html#chunks-of-3-letters), the more letters you have in a chunk, the "frenchier" the words are.
 
 And the following table represents the score of each language according to the previous method of computing scores.
 
