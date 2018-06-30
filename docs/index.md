@@ -72,17 +72,17 @@ In order to have the right norm function, we have to determine this limit.
 
 ### Cutoff limit
 
-First, with $norm = x \rightarrow x^y, y > 0$, the "cutoff" value is when the function starts to raise pretty quickly, which is when the value of its derivative is 1.
+First, with $norm = x \rightarrow x^n, n > 0$, the "cutoff" value is when the function starts to raise pretty quickly, which is when the value of its derivative is 1.
 
-$ norm(x) = x^y \Rightarrow norm'(x) = y . x^{y-1} $
+$ norm(x) = x^n \Rightarrow norm'(x) = n . x^{n-1} $
 
-$ norm'(x) = 1 \Leftrightarrow x = \sqrt[y-1]{\dfrac{1}{y}} $
+$ norm'(x) = 1 \Leftrightarrow x = \sqrt[n-1]{\dfrac{1}{n}} $
 
-With geogebra, we plot the function $y \rightarrow \sqrt[y-1]{\dfrac{1}{y}}$ and we looked at its intersections with the function $y = k$, for various values of k (interesting cutoff values).
+With geogebra, we plot the function $y = \sqrt[n-1]{\dfrac{1}{n}}$ and we looked at its intersections with the function $y = k$, for various values of k (interesting cutoff values).
 
 This is what we got:
 
-| k    | y    |
+| k    | n    |
 | ---- | ---- |
 | 0.33 | 0.81 |
 | 0.4  | 1.19 |
@@ -135,7 +135,7 @@ Then we compared those cutoff values with the data we had to see which one is th
 
 ### Conclusion
 
-`(n, x) := (4.94, 0.666)` is chosen because it maximizes at the same time the percentage of differences with en and it.
+`(n, k) := (4.94, 0.666)` is chosen because it maximizes at the same time the percentage of differences with en and it.
 
 Having a rather large cutoff value can be explained because we are only interested in the location of the biggest percentages in the markov chains: knowing that the sequence "xw" is rare in a language and that it is also rare in another language has less value than it is rare in one but important in another one.
 
