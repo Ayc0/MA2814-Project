@@ -8,15 +8,20 @@ def set_to_list(s):
     array.sort()
     return array
 
+def copyNotNone(value):
+    if value is None:
+        return None
+    return value.copy()
 
 class MarkovChain:
-    def __init__(self, name, nb_char=1, letters={ SPACE }, letters_table=dict(), transition_array=None, transition_matrix=None):
+    def __init__(self, name, nb_char=1, letters={ SPACE }, letters_table=dict(), transition_array=None, transition_matrix=None, reversion_array=None):
         self.name = name
         self.nb_char = nb_char
-        self.letters = letters
-        self.letters_table = letters_table
-        self.transition_array = transition_array
-        self.transition_matrix = transition_matrix
+        self.letters = letters.copy()
+        self.letters_table = letters_table.copy()
+        self.transition_array = copyNotNone(transition_array)
+        self.transition_matrix = copyNotNone(transition_matrix)
+        self.reversion_array = copyNotNone(reversion_array)
 
     def add(self, prev, new):
         self.letters.add(prev)
@@ -66,7 +71,10 @@ class MarkovChain:
         message = '"{}" don\'t have any followers'.format(letter)
         raise ValueError(message)
 
-    def build(self):
+    def build(self, pure=False):
+        is_space_in_letters = SPACE in self.letters
+        if pure:
+            self.letters = self.letters - set(SPACE)
         letters_list = self.letters_list
         table = []
         for letterA in letters_list:
@@ -77,5 +85,27 @@ class MarkovChain:
         self.transition_array = np.array(table)
         transition_array = np.nan_to_num(self.transition_array / self.transition_array.sum(axis=1)[:,None])
         self.transition_matrix = np.matrix(transition_array)
+        reversion_array = np.transpose(self.transition_array)
+        reversion_array = np.nan_to_num(reversion_array / reversion_array.sum(axis=1)[:,None])
+        self.reversion_matrix = np.matrix(reversion_array)
+        if pure and is_space_in_letters:
+            self.letters = self.letters |  set(SPACE)
+
+    def copy(self, name=None, build=True, pure=False):
+        if name is None:
+            name = self.name
+        if build:
+            transition_array = None
+            transition_matrix = None
+            reversion_array = None
+        else:
+            transition_array = self.transition_array
+            transition_matrix = self.transition_matrix
+            reversion_array = self.reversion_array
+        copied = MarkovChain(name, self.nb_char, self.letters, self.letters_table, transition_array, transition_matrix, reversion_array)
+        if build:
+            copied.build(pure)
+        return copied
+
 
 
