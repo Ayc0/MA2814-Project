@@ -84,8 +84,8 @@ class MarkovChain:
         reversion_array = np.transpose(self.transition_array)
         reversion_array = np.nan_to_num(reversion_array / reversion_array.sum(axis=1)[:,None])
         self.reversion_matrix = np.matrix(reversion_array)
-        if pure and is_space_in_letters:
-            self.letters = self.letters |  set(SPACE)
+        # if pure and is_space_in_letters:
+            # self.letters = self.letters |  set(SPACE)
 
     def copy(self, name=None, build=True, pure=False):
         if name is None:
