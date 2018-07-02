@@ -4,7 +4,7 @@ SPACE = ' '
 
 def stop(message, error=True):
     if error:
-        print('Error:', end=" ")
+        sys.stderr.write('Error: {} '.format(message))
         sys.exit(1)
     print(message)
     sys.exit(0)
