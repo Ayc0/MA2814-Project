@@ -1,7 +1,6 @@
 import numpy as np
-from random import random
 
-from settings import SPACE
+from settings import SPACE, randomDistrib
 
 def set_to_list(s):
     array = [x for x in s]
@@ -62,14 +61,11 @@ class MarkovChain:
     def nextLetter(self, letter):
         rowOfLetters = self.rowOfLetters([letter])
         rowOfLetters = self.nextProba(rowOfLetters)
-        rand = random()
-        cumulative_sum = 0
-        for (index, l) in enumerate(self.letters_list):
-            cumulative_sum += rowOfLetters[0, index]
-            if cumulative_sum > rand:
-                return l
-        message = '"{}" don\'t have any followers'.format(letter)
-        raise ValueError(message)
+        index = randomDistrib(rowOfLetters)
+        if index == -1:
+            message = '"{}" don\'t have any followers'.format(letter)
+            raise ValueError(message)
+        return self.letters_list[index]
 
     def build(self, pure=False):
         is_space_in_letters = SPACE in self.letters
