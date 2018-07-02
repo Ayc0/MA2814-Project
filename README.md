@@ -20,6 +20,11 @@ Project for MA2814 - Introduction to Random Modeling
 - `pipenv run display` <br>
   Create transition matrix image in /docs/images
 
+- `pipenv run generate [method] -n [number] <args>` <br>
+  Generate (depending on the method) a text / words using the current markov chain's transition matrix <br>
+  Allowed methods: `text` <br>
+  Extra arguments:
+
 # Sources
 
 - [Notre-Dame de Paris](https://fr.wikisource.org/wiki/Notre-Dame_de_Paris) (full)
