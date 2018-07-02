@@ -10,7 +10,7 @@ cache_filename = os.path.join(cache_dir, "current.pkl")
 def filename(file):
     cache_filename = os.path.join(cache_dir, "{}.pkl".format(file))
     if not(os.path.exists(cache_filename)):
-        stop('Cached "{}" doesn\'t exists, you should import it before')
+        stop('Cached "{}" doesn\'t exists, you should import it before'.format(file))
     return cache_filename
 
 def load(file="current", build=True):
