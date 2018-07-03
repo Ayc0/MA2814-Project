@@ -31,8 +31,9 @@ class MarkovChain:
             self.letters_table[(prev, new)] = 1
     
     def get(self, prev, new):
-        if self.letters_table.get((prev, new)) is not None:
-            return self.letters_table[(prev, new)]
+        value = self.letters_table.get((prev, new))
+        if value is not None:
+            return value
         return 0
     
     @property
@@ -59,8 +60,10 @@ class MarkovChain:
         return rowOfLetters * (self.transition_matrix ** order)
 
     def nextLetter(self, letter):
-        rowOfLetters = self.rowOfLetters([letter])
-        rowOfLetters = self.nextProba(rowOfLetters)
+        # rowOfLetters = self.rowOfLetters([letter])
+        # rowOfLetters = self.nextProba(rowOfLetters)
+        letterIndex = self.letters_list.index(letter)
+        rowOfLetters = self.transition_matrix[letterIndex,:]
         index = randomDistrib(rowOfLetters)
         if index == -1:
             message = '"{}" don\'t have any followers'.format(letter)
@@ -72,13 +75,11 @@ class MarkovChain:
         if pure:
             self.letters = self.letters - set(SPACE)
         letters_list = self.letters_list
-        table = []
-        for letterA in letters_list:
-            row = []
-            for letterB in letters_list:
-                row.append(self.get(letterA, letterB))
-            table.append(row)
-        self.transition_array = np.array(table)
+        transition_array = np.zeros((len(letters_list), len(letters_list)))
+        for (i, letterA) in enumerate(letters_list):
+            for (j, letterB) in enumerate(letters_list):
+                transition_array[i, j] = self.get(letterA, letterB)
+        self.transition_array = transition_array
         transition_array = np.nan_to_num(self.transition_array / self.transition_array.sum(axis=1)[:,None])
         self.transition_matrix = np.matrix(transition_array)
         reversion_array = np.transpose(self.transition_array)
