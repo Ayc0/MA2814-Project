@@ -165,7 +165,7 @@ According to the scores, the way the word generator works still produces "french
 
 (We're using the same model for the training and for the validation).
 
-As the chunks of 2 letters produces a fairly good generator and as it's less greedy in term of matrix sizes, we're going to use this type of generator afterwards and we generated a [french text but with accents]({base_url}}results.html#french-real-text-with-accents) (é, à, etc.), an [italian text with accents]({{base_url}}results.html#italian-with-accents) and an [english text]({{base_url}}results.html#english-real-text).
+As the chunks of 2 letters produces a fairly good generator and as it's less greedy in term of matrix sizes, we're going to use this type of generator afterwards and we generated a [french text but with accents]({{base_url}}results.html#french-real-text-with-accents) (é, à, etc.), an [italian text with accents]({{base_url}}results.html#italian-with-accents) and an [english text]({{base_url}}results.html#english-real-text).
 
 ## How to generate words with specific length
 
